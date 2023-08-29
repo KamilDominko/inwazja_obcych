@@ -1,16 +1,7 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+"""Projekt z wykorzystaniem biblioteki pygame.
+Gra inwazja obcych, w której gracz steruje statkiem kosmicznym na dole
+ekranu, poruszając się w lewo i prawo zestrzeliwując nadciągające wrogie
+statki. Jeżeli wrogi statek dotknie gracza lub zejdzie poniżej określonej
+wysokości ekranu, gracz traci jedno życie. Po zestrzeleniu wrogiego statku
+gracz dostaje jeden punkt, po zniszczeniu wszystkich statków w fali dostaje
+dziesięć punktów"""
