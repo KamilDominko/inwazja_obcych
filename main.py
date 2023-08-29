@@ -30,18 +30,26 @@ class Game:
         self.ship = Ship(self)
         self.bg_color = self.settings.bg_color
 
+    def _check_events(self):
+        """Reakcja na zdarzenia generowane przez klawiaturę i mysz."""
+        # Oczekiwanie na naciśnięcie klawisza lub przycisku myszy.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+    def _update_screen(self):
+        """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
+        # Odświerzenie ekranu w trakcie każdej iteracji pętli.
+        self.screen.fill(self.bg_color)
+        self.ship.blitme()
+        # Wyświetlenie ostatnio zmodyfikowanego ekranu.
+        pygame.display.flip()
+
     def run(self):
         "Rozpoczęcie głównej pętli gry."
         while True:
-            # Oczekiwanie na naciśnięcie klawisza lub przycisku myszy.
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-            # Odświerzenie ekranu w trakcie każdej iteracji pętli.
-            self.screen.fill(self.bg_color)
-            self.ship.blitme()
-            # Wyświetlenie ostatnio zmodyfikowanego ekranu.
-            pygame.display.flip()
+            self._check_events()
+            self._update_screen()
 
 
 if __name__ == '__main__':
