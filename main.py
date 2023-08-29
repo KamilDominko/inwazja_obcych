@@ -11,6 +11,7 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
 
 class Game:
@@ -26,6 +27,7 @@ class Game:
                                                self.settings.screen_height))
         pygame.display.set_caption("Inwazja Obcych")
 
+        self.ship = Ship(self)
         self.bg_color = self.settings.bg_color
 
     def run(self):
@@ -37,6 +39,7 @@ class Game:
                     sys.exit()
             # Odświerzenie ekranu w trakcie każdej iteracji pętli.
             self.screen.fill(self.bg_color)
+            self.ship.blitme()
             # Wyświetlenie ostatnio zmodyfikowanego ekranu.
             pygame.display.flip()
 
