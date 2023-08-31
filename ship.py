@@ -28,7 +28,7 @@ class Ship:
     def update(self):
         """Uaktualnienie położenia statku na podstawie opcji wskazującej na
         jego ruch"""
-        # Uaktualnienie wartości współrzędniej X statku, a nie jego prostokąta.
+        # Uaktualnienie wartości współrzędnej X statku, a nie jego prostokąta.
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.ship_speed
         if self.moving_left and self.rect.left > 0:
