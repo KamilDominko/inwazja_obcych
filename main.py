@@ -12,6 +12,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 
 class Game:
@@ -28,6 +29,7 @@ class Game:
         pygame.display.set_caption("Inwazja Obcych")
 
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
         self.bg_color = self.settings.bg_color
 
     def _check_events(self):
@@ -48,6 +50,8 @@ class Game:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -55,11 +59,18 @@ class Game:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    def _fire_bullet(self):
+        """Utworzenie nowego pocisku i dodanie go do grupy pocisków."""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
+
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
         # Odświeżenie ekranu w trakcie każdej iteracji pętli.
         self.screen.fill(self.bg_color)
         self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
         # Wyświetlenie ostatnio zmodyfikowanego ekranu.
         pygame.display.flip()
 
@@ -68,6 +79,7 @@ class Game:
         while True:
             self._check_events()
             self.ship.update()
+            self.bullets.update()
             self._update_screen()
 
 
