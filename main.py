@@ -49,7 +49,7 @@ class Game:
 
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
-        # Odświerzenie ekranu w trakcie każdej iteracji pętli.
+        # Odświeżenie ekranu w trakcie każdej iteracji pętli.
         self.screen.fill(self.bg_color)
         self.ship.blitme()
         # Wyświetlenie ostatnio zmodyfikowanego ekranu.
