@@ -10,9 +10,10 @@ import sys
 
 import pygame
 
+from alien import Alien
+from bullet import Bullet
 from settings import Settings
 from ship import Ship
-from bullet import Bullet
 
 
 class Game:
@@ -30,7 +31,28 @@ class Game:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
         self.bg_color = self.settings.bg_color
+
+        self._create_fleet()
+
+    def _create_fleet(self):
+        """Utworzenie pełnej floty obcych."""
+        # Utworzenie obcego i ustalenie liczby obcych, którzy zmieszczą się w
+        # rzędzie.
+        # Odległość między poszczególnymi obcymi jest równa szerokości obcego.
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # Utworzenie pierwszego rzędu obcych.
+        for alien_number in range(number_aliens_x):
+            # Utworzenie obcego i umieszczenie go w rzędzie.
+            alien = Alien(self)
+            alien.x = alien_width + 2 * alien_width * alien_number
+            alien.rect.x = alien.x
+            self.aliens.add(alien)
 
     def _check_events(self):
         """Reakcja na zdarzenia generowane przez klawiaturę i mysz."""
@@ -83,6 +105,7 @@ class Game:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
         # Wyświetlenie ostatnio zmodyfikowanego ekranu.
         pygame.display.flip()
 
