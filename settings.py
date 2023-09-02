@@ -18,3 +18,8 @@ class Settings:
         # Ustawienia dotyczące gwiazd
         self.max_radius = 20
         self.stars_allowed = 60
+        # Ustawienia dotyczące obcych
+        self.alien_speed = 0.1
+        self.fleet_drop_speed = 10
+        # Wartość fleet_direction wynosząca 1 oznacza prawo, -1 - lewo.
+        self.fleet_direction = 1
