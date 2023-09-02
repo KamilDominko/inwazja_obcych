@@ -36,6 +36,14 @@ class Game:
 
         self._create_fleet()
 
+    def _create_alien(self, alien_number):
+        """Utworzenie obcego i umieszczenie go w rzędzie."""
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        self.aliens.add(alien)
+
     def _create_fleet(self):
         """Utworzenie pełnej floty obcych."""
         # Utworzenie obcego i ustalenie liczby obcych, którzy zmieszczą się w
@@ -48,11 +56,7 @@ class Game:
 
         # Utworzenie pierwszego rzędu obcych.
         for alien_number in range(number_aliens_x):
-            # Utworzenie obcego i umieszczenie go w rzędzie.
-            alien = Alien(self)
-            alien.x = alien_width + 2 * alien_width * alien_number
-            alien.rect.x = alien.x
-            self.aliens.add(alien)
+            self._create_alien(alien_number)
 
     def _check_events(self):
         """Reakcja na zdarzenia generowane przez klawiaturę i mysz."""
