@@ -40,3 +40,6 @@ class Star(Sprite):
     def draw_star(self):
         """Wyświetlanie gwiadzy na ekranie."""
         pygame.draw.circle(self.screen, self.color, self.center, self.radius)
+
+    def update(self):
+        pass

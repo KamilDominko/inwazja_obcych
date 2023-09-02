@@ -11,7 +11,7 @@ class Bullet(Sprite):
         super().__init__()
         self.screen = game.screen
         self.settings = game.settings
-        self.color = self.settings.bullet_collor
+        self.color = self.settings.bullet_color
 
         # Utworzenie prostokąta pocisku w punkcie (0,0), a następnie
         # zdefiniowanie dla niego odpowiedz niego położenia.
