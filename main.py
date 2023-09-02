@@ -7,6 +7,7 @@ gracz dostaje jeden punkt, po zniszczeniu wszystkich statków w fali dostaje
 dziesięć punktów"""
 
 import sys
+import random
 
 import pygame
 
@@ -14,6 +15,7 @@ from alien import Alien
 from bullet import Bullet
 from settings import Settings
 from ship import Ship
+from star import Star
 
 
 class Game:
@@ -32,9 +34,11 @@ class Game:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.stars = pygame.sprite.Group()
         self.bg_color = self.settings.bg_color
 
         self._create_fleet()
+        self._create_stars()
 
     def _create_alien(self, alien_number, row_number):
         """Utworzenie obcego i umieszczenie go w rzędzie."""
@@ -114,12 +118,26 @@ class Game:
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
         # Odświeżenie ekranu w trakcie każdej iteracji pętli.
         self.screen.fill(self.bg_color)
+        for star in self.stars.sprites():
+            star.draw_star()
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
         # Wyświetlenie ostatnio zmodyfikowanego ekranu.
         pygame.display.flip()
+
+    def _create_stars(self):
+        """Tworzy gwiazdy w losowo wybranych miejscach na ekranie."""
+        screen_width, screen_height = self.screen.get_size()
+        max_radius = self.settings.max_radius
+        max_generate_x = screen_width - max_radius
+        max_generate_y = screen_height - max_radius
+        for i in range(self.settings.stars_allowed):
+            random_x = random.randint(max_radius, max_generate_x)
+            random_y = random.randint(max_radius, max_generate_y)
+            star = Star(self, (random_x, random_y))
+            self.stars.add(star)
 
     def run(self):
         """Rozpoczęcie głównej pętli gry."""
