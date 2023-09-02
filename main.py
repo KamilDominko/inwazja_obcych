@@ -128,16 +128,28 @@ class Game:
         pygame.display.flip()
 
     def _create_stars(self):
-        """Tworzy gwiazdy w losowo wybranych miejscach na ekranie."""
-        screen_width, screen_height = self.screen.get_size()
-        max_radius = self.settings.max_radius
-        max_generate_x = screen_width - max_radius
-        max_generate_y = screen_height - max_radius
+        """Tworzy początkowe gwiazdy na ekranie."""
         for i in range(self.settings.stars_allowed):
-            random_x = random.randint(max_radius, max_generate_x)
-            random_y = random.randint(max_radius, max_generate_y)
-            star = Star(self, (random_x, random_y))
-            self.stars.add(star)
+            self._create_star(True)
+
+    def _create_star(self, first=False):
+        """Tworzy gwiazdę nad w losowym miejscu nad ekranem, jeżeli
+        przekazano True wtedy tworzy gwiazde losowo na ekranie."""
+        rand_x = random.randrange(0, self.settings.screen_width)
+        if first:
+            rand_y = random.randrange(0, self.settings.screen_height)
+        else:
+            rand_y = random.randrange(-self.settings.screen_height, 0)
+        star = Star(self, (rand_x, rand_y))
+        self.stars.add(star)
+
+    def _update_stars(self):
+        self.stars.update()
+        # Usunięcie pocisków, które znajdują się poza ekranem.
+        for star in self.stars.copy():
+            if star.rect.top >= self.settings.screen_height:
+                self.stars.remove(star)
+                self._create_star()
 
     def _update_aliens(self):
         """Sprawdzenie, czy flota obcych znajduje się przy
@@ -164,6 +176,7 @@ class Game:
         while True:
             self._check_events()
             self.ship.update()
+            self._update_stars()
             self._update_bullets()
             self._update_aliens()
             self._update_screen()

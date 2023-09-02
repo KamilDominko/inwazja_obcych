@@ -10,9 +10,12 @@ class Star(Sprite):
         super().__init__()
         self.screen = game.screen
         self.color = self._generate_color()
+        self.speed = 0.1
         self.max_radius = game.settings.max_radius
         self.radius = self._generate_radius()
         self.center = center
+        self.rect = pygame.Rect((center), (self.radius, self.radius))
+        self.y = float(self.rect.y)
 
     def _generate_radius(self):
         """Funkcja losuje przedział, a następnie z tego przedziału rozmiar
@@ -39,7 +42,9 @@ class Star(Sprite):
 
     def draw_star(self):
         """Wyświetlanie gwiadzy na ekranie."""
-        pygame.draw.circle(self.screen, self.color, self.center, self.radius)
+        pygame.draw.circle(self.screen, self.color, self.rect.center,
+                           self.radius)
 
     def update(self):
-        pass
+        self.y += self.speed
+        self.rect.y = self.y

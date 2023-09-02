@@ -16,8 +16,8 @@ class Settings:
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
         # Ustawienia dotyczące gwiazd
-        self.max_radius = 20
-        self.stars_allowed = 60
+        self.max_radius = 15
+        self.stars_allowed = 100
         # Ustawienia dotyczące obcych
         self.alien_speed = 0.1
         self.fleet_drop_speed = 10
