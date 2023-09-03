@@ -136,7 +136,6 @@ class Game:
         # Jeżeli tak, usuwamy zarówno pocisk, jak i obcego.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
                                                 True, True)
-
         if not self.aliens:
             # Pozbycie się istniejących pocisków i utworzenie nowej floty.
             self.bullets.empty()
@@ -181,19 +180,32 @@ class Game:
 
     def _ship_hit(self):
         """Reakcja na uderzenie obcego w statek."""
-        # Zmniejszenie wartości przechowywanej w ships_left.
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # Zmniejszenie wartości przechowywanej w ships_left.
+            self.stats.ships_left -= 1
 
-        # Usunięcie zawartości list aliens i bullets.
-        self.aliens.empty()
-        self.bullets.empty()
+            # Usunięcie zawartości list aliens i bullets.
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Utworzenie nowej floty i wyśrodkowanie statku.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Utworzenie nowej floty i wyśrodkowanie statku.
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # Pauza
-        time.sleep(1)
+            # Pauza
+            time.sleep(1)
+        else:
+            self.stats.game_active = False
+
+    def _check_aliens_bottom(self):
+        """Sprawdzenie, czy którykolwiek obcy dotarł do dolnej krawędzi
+        ekranu."""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # Tak samo, jak w przypadku zderzenia statku z obcym.
+                self._ship_hit()
+                break
 
     def _update_aliens(self):
         """Sprawdzenie, czy flota obcych znajduje się przy
@@ -206,6 +218,9 @@ class Game:
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
+        # Wyszukiwanie obcych docierających do dolnej krawędzi ekranu.
+        self._check_aliens_bottom()
+
     def _check_fleet_edges(self):
         """Odpowiednia reakcja, gdy obcy dotrze do krawędzi ekranu."""
         for alien in self.aliens.sprites():
@@ -214,7 +229,8 @@ class Game:
                 break
 
     def _change_fleet_direction(self):
-        """Przesunięcie całej floty w dół i zmiana kierunku, w którym się ona porusza."""
+        """Przesunięcie całej floty w dół i zmiana kierunku, w którym się
+        ona porusza."""
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
@@ -223,10 +239,12 @@ class Game:
         """Rozpoczęcie głównej pętli gry."""
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_stars()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_stars()
+                self._update_bullets()
+                self._update_aliens()
             self._update_screen()
 
 
