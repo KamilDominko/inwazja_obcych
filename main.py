@@ -139,7 +139,6 @@ class Game:
         for alien in collisions.values():
             for a in alien:
                 a.hit(self.aliens)
-                print(f"POINTS\t{self.stats.points}")
 
         if not self.aliens:
             # Pozbycie się istniejących pocisków i utworzenie nowej floty.
