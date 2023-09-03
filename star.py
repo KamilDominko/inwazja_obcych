@@ -1,6 +1,7 @@
 import random
 import pygame
 from pygame.sprite import Sprite
+from pygame import gfxdraw
 
 
 class Star(Sprite):
@@ -52,6 +53,13 @@ class Star(Sprite):
         """Wyświetlanie gwiadzy na ekranie."""
         pygame.draw.circle(self.screen, self.color, self.rect.center,
                            self.radius)
+        # Wersja z gładszymi krawędziami
+        # gfxdraw.aacircle(self.screen, self.rect.center[0], self.rect.center[1],
+        #                  self.radius,
+        #                  self.color)
+        # gfxdraw.filled_circle(self.screen, self.rect.center[0],
+        #                       self.rect.center[1],
+        #                       self.radius, self.color)
 
     def update(self):
         self.y += self.speed
