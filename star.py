@@ -21,24 +21,32 @@ class Star(Sprite):
         """Funkcja losuje przedział, a następnie z tego przedziału rozmiar
         gwiazdy"""
         i = random.randrange(100)
-        if i <= 30:
+        if i >= 0 and i <= 35:
             radius = random.randrange(self.max_radius // 4)
-        elif i > 30 and i <= 50:
+            self.speed = 0.20
+        elif i >= 36 and i <= 60:
             radius = random.randrange(self.max_radius // 4,
                                       self.max_radius // 3)
-        elif i > 50 and i <= 80:
+            self.speed = 0.15
+        elif i >= 61 and i <= 90:
             radius = random.randrange(self.max_radius // 3,
                                       self.max_radius // 2)
-        elif i > 80:
+            self.speed = 0.10
+        elif i >= 91 and i <= 100:
             radius = random.randrange(self.max_radius // 2, self.max_radius)
+            self.speed = 0.05
         return radius
 
     def _generate_color(self):
         """Generuje różne kolor dla gwiazdy."""
-        r = random.randrange(200, 250, 10)
-        g = random.randrange(200, 250, 10)
-        b = random.randrange(50, 250, 50)
-        return (r, g, b)
+        rand_choice = random.randint(1, 3)
+        if rand_choice == 1:
+            rgb = (255, 128, 0)
+        elif rand_choice == 2:
+            rgb = (255, 255, 0)
+        elif rand_choice == 3:
+            rgb = (255, 0, 0)
+        return rgb
 
     def draw_star(self):
         """Wyświetlanie gwiadzy na ekranie."""

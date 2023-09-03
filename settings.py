@@ -11,13 +11,13 @@ class Settings:
         self.ship_speed = 1.5
         # Ustawienia dotyczące pocisku
         self.bullet_speed = 1.0
-        self.bullet_width = 3
-        self.bullet_height = 15
+        self.bullet_width = 5
+        self.bullet_height = 20
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
         # Ustawienia dotyczące gwiazd
         self.max_radius = 15
-        self.stars_allowed = 100
+        self.stars_allowed = 120
         # Ustawienia dotyczące obcych
         self.alien_speed = 0.1
         self.fleet_drop_speed = 10
