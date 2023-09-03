@@ -8,6 +8,7 @@ dziesięć punktów"""
 
 import sys
 import random
+import time
 
 import pygame
 
@@ -16,6 +17,7 @@ from bullet import Bullet
 from settings import Settings
 from ship import Ship
 from star import Star
+from game_stats import GameStats
 
 
 class Game:
@@ -30,6 +32,10 @@ class Game:
         self.screen = pygame.display.set_mode((self.settings.screen_width,
                                                self.settings.screen_height))
         pygame.display.set_caption("Inwazja Obcych")
+
+        # Utworzenie egzemplarza przechowującego dane statystyczne dotyczące
+        # gry.
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -122,6 +128,20 @@ class Game:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        """Reakcja na kolizję między pociskiem i obcym."""
+        # Sprawdzenie, czy którykolwiek pocisk trafił obcego.
+        # Jeżeli tak, usuwamy zarówno pocisk, jak i obcego.
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
+                                                True, True)
+
+        if not self.aliens:
+            # Pozbycie się istniejących pocisków i utworzenie nowej floty.
+            self.bullets.empty()
+            self._create_fleet()
+
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
         # Odświeżenie ekranu w trakcie każdej iteracji pętli.
@@ -159,12 +179,32 @@ class Game:
                 self.stars.remove(star)
                 self._create_star()
 
+    def _ship_hit(self):
+        """Reakcja na uderzenie obcego w statek."""
+        # Zmniejszenie wartości przechowywanej w ships_left.
+        self.stats.ships_left -= 1
+
+        # Usunięcie zawartości list aliens i bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Utworzenie nowej floty i wyśrodkowanie statku.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Pauza
+        time.sleep(1)
+
     def _update_aliens(self):
         """Sprawdzenie, czy flota obcych znajduje się przy
         krawędzi, a następnie uaktualnienie położenia wszystkich obcych we
         flocie."""
         self._check_fleet_edges()
         self.aliens.update()
+
+        # Wykrywanie kolizji między obcym i statkiem.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
 
     def _check_fleet_edges(self):
         """Odpowiednia reakcja, gdy obcy dotrze do krawędzi ekranu."""
