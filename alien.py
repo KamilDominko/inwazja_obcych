@@ -10,6 +10,7 @@ class Alien(Sprite):
         super().__init__()
         self.screen = game.screen
         self.settings = game.settings
+        self.stats = game.stats
 
         # Wczytanie obrazu obcego i zdefiniowanie jego atrybutu rect.
         self.image = pygame.image.load('images/alien2.bmp')
@@ -33,3 +34,7 @@ class Alien(Sprite):
         """Przesunięcie obcego w prawo lub lewo."""
         self.x += (self.settings.alien_speed * self.settings.fleet_direction)
         self.rect.x = self.x
+
+    def hit(self, group):
+        self.stats.points += 1
+        self.remove(group)

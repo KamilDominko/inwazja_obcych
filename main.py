@@ -135,7 +135,12 @@ class Game:
         # Sprawdzenie, czy którykolwiek pocisk trafił obcego.
         # Jeżeli tak, usuwamy zarówno pocisk, jak i obcego.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
-                                                True, True)
+                                                True, False)
+        for alien in collisions.values():
+            for a in alien:
+                a.hit(self.aliens)
+                print(f"POINTS\t{self.stats.points}")
+
         if not self.aliens:
             # Pozbycie się istniejących pocisków i utworzenie nowej floty.
             self.bullets.empty()
