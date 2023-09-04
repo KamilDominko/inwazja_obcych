@@ -105,6 +105,7 @@ class Game:
         self.stats.game_active = True
         self.sb.prep_score()
         self.sb.prep_level()
+        self.sb.prep_ships()
 
         # Usunięcie zawartości list aliens i bullets.
         self.aliens.empty()
@@ -247,8 +248,10 @@ class Game:
     def _ship_hit(self):
         """Reakcja na uderzenie obcego w statek."""
         if self.stats.ships_left > 0:
-            # Zmniejszenie wartości przechowywanej w ships_left.
+            # Zmniejszenie wartości przechowywanej w ships_left i
+            # uaktualnienie tablicy wyników.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             # Usunięcie zawartości list aliens i bullets.
             self.aliens.empty()

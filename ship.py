@@ -1,11 +1,12 @@
 import pygame
+from pygame.sprite import Sprite
 
-
-class Ship:
+class Ship(Sprite):
     """Klasa przeznaczona do zarządzania statkiem kosmicznym gracza"""
 
     def __init__(self, game):
         """Inicjalizacja statku kosmicznego i jego położenie początkowe"""
+        super().__init__()
         self.screen = game.screen
         self.settings = game.settings
         self.screen_rect = game.screen.get_rect()
