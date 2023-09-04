@@ -83,4 +83,5 @@ class Scoreboard:
         """Sprawdzenie, czy mamy nowy najlepszy wynik w grze."""
         if self.stats.points > self.stats.high_score:
             self.stats.high_score = self.stats.points
+            self.stats.save_high_score(str(self.stats.points))
             self.prep_high_score()

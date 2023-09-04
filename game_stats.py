@@ -9,8 +9,9 @@ class GameStats:
         # Uruchomienie gry w stanie nieaktywnym.
         self.game_active = False
 
-        # Najwyższy wynik nigdy nie powinien zostać wyzerowany.
-        self.high_score = 0
+        # Wczytanie najwyższego wyniku z pliku .txt.
+        self.load_high_score()
+        print(f"LOADED HS\t{self.high_score}")
 
     def reset_stats(self):
         """Inicjalizacja danych statystycznych, które mogą zmieniać się w
@@ -18,3 +19,28 @@ class GameStats:
         self.ships_left = self.settings.ship_limit
         self.points = 0
         self.level = 1
+
+    def load_high_score(self):
+        try:
+            with open(self.settings.filename_high_score) as file_object:
+                high_score = file_object.read()
+        except FileNotFoundError:
+            self.save_high_score("0")
+            self.load_high_score()
+        else:
+            try:
+                self.high_score = int(high_score)
+            except ValueError:
+                self.save_high_score("0")
+                self.load_high_score()
+            else:
+                self.high_score = int(high_score)
+
+    def save_high_score(self, high_score):
+        with open(self.settings.filename_high_score, "w") as file_object:
+            file_object.write(high_score)
+
+    def compare_high_score(self):
+        print(f"New HS\t{self.points}\nOld HS\t{self.high_score}")
+        if self.points > self.high_score:
+            self.save_high_score(self.points)

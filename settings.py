@@ -34,6 +34,9 @@ class Settings:
         # Łatwa zmiana liczby punktów przyznawanych za zestrzelenie obcego.
         self.score_scale = 1.5
 
+        # Nazwy plików.
+        self.filename_high_score = "high_score.txt"
+
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
