@@ -19,6 +19,7 @@ from ship import Ship
 from star import Star
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 
 class Game:
@@ -37,6 +38,7 @@ class Game:
         # Utworzenie egzemplarza przechowującego dane statystyczne dotyczące
         # gry.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -97,7 +99,7 @@ class Game:
     def _start_game(self):
         # Wyzerowanie ustawień dotyczących gry.
         self.settings.initialize_dynamic_settings()
-        
+
         # Wyzerowanie danych statystycznych gry.
         self.stats.reset_stats()
         self.stats.game_active = True
@@ -192,6 +194,9 @@ class Game:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+
+        # Wyświetlenie informacji o punktacji.
+        self.sb.show_score()
         # Wyświetlenie przycisku tylko wtedy, gey gra jest nieaktywna.
         if not self.stats.game_active:
             self.play_button.draw_button()
