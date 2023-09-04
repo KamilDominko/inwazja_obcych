@@ -19,7 +19,7 @@ class Scoreboard:
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
 
-        # Przygotowanie początkowych obrazów z pynktacją.
+        # Przygotowanie początkowych obrazów z punktacją.
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
@@ -46,7 +46,7 @@ class Scoreboard:
                                                  self.text_color,
                                                  self.settings.bg_color)
 
-        # Wyswietlenie najlepszego wyniku w grze na środku ekranu przy górnej
+        # Wyświetlenie najlepszego wyniku w grze na środku ekranu przy górnej
         # krawędzi.
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
@@ -58,7 +58,7 @@ class Scoreboard:
         self.level_image = self.font.render(level_str, True, self.text_color,
                                             self.settings.bg_color)
 
-        # Numer poziomu jest wyśweitlany pod aktualną punktacją.
+        # Numer poziomu jest wyświetlany pod aktualną punktacją.
         self.level_rect = self.level_image.get_rect()
         self.level_rect.right = self.score_rect.right
         self.level_rect.top = self.score_rect.bottom + 10
