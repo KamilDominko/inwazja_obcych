@@ -11,7 +11,6 @@ class GameStats:
 
         # Wczytanie najwyższego wyniku z pliku .txt.
         self.load_high_score()
-        print(f"LOADED HS\t{self.high_score}")
 
     def reset_stats(self):
         """Inicjalizacja danych statystycznych, które mogą zmieniać się w
@@ -21,6 +20,7 @@ class GameStats:
         self.level = 1
 
     def load_high_score(self):
+        """Wczytuje najwyższy wynik gry z pliku high_score.txt"""
         try:
             with open(self.settings.filename_high_score) as file_object:
                 high_score = file_object.read()
@@ -37,10 +37,6 @@ class GameStats:
                 self.high_score = int(high_score)
 
     def save_high_score(self, high_score):
+        """Zapisuje podaną w argumencie liczbę do pliku high_score.txt"""
         with open(self.settings.filename_high_score, "w") as file_object:
             file_object.write(high_score)
-
-    def compare_high_score(self):
-        print(f"New HS\t{self.points}\nOld HS\t{self.high_score}")
-        if self.points > self.high_score:
-            self.save_high_score(self.points)
