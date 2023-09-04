@@ -103,6 +103,7 @@ class Game:
         # Wyzerowanie danych statystycznych gry.
         self.stats.reset_stats()
         self.stats.game_active = True
+        self.sb.prep_score()
 
         # Usunięcie zawartości list aliens i bullets.
         self.aliens.empty()
@@ -173,10 +174,20 @@ class Game:
         # Sprawdzenie, czy którykolwiek pocisk trafił obcego.
         # Jeżeli tak, usuwamy zarówno pocisk, jak i obcego.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
-                                                True, False)
-        for alien in collisions.values():
-            for a in alien:
-                a.hit(self.aliens)
+                                                True, True)
+        # Moja metoda sprawia, że zestrzelenie wielu obcych zlicza punkty z
+        # każdego zestrzelonego obcego, a nie tylko z pierwszego poprzez
+        # wywołanie metody z obcego. Trzeba zmienić w powyższej metodzie
+        # sprite.groupcollide ostatni argument na False, aby statek obcego
+        # nie był od razu kasowany.
+        # for alien in collisions.values():
+        #     for a in alien:
+        #         a.hit(self.aliens)
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.points += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
 
         if not self.aliens:
             # Pozbycie się istniejących pocisków i utworzenie nowej floty.
