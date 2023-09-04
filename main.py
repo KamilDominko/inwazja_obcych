@@ -104,6 +104,7 @@ class Game:
         self.stats.reset_stats()
         self.stats.game_active = True
         self.sb.prep_score()
+        self.sb.prep_level()
 
         # Usunięcie zawartości list aliens i bullets.
         self.aliens.empty()
@@ -188,12 +189,17 @@ class Game:
             for aliens in collisions.values():
                 self.stats.points += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
 
         if not self.aliens:
             # Pozbycie się istniejących pocisków i utworzenie nowej floty.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            # Inkrementacja numeru poziomu.
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
