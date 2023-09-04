@@ -95,6 +95,9 @@ class Game:
                 self._check_play_button(mouse_pos)
 
     def _start_game(self):
+        # Wyzerowanie ustawień dotyczących gry.
+        self.settings.initialize_dynamic_settings()
+        
         # Wyzerowanie danych statystycznych gry.
         self.stats.reset_stats()
         self.stats.game_active = True
@@ -177,6 +180,7 @@ class Game:
             # Pozbycie się istniejących pocisków i utworzenie nowej floty.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
