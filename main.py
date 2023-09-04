@@ -94,25 +94,28 @@ class Game:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
 
+    def _start_game(self):
+        # Wyzerowanie danych statystycznych gry.
+        self.stats.reset_stats()
+        self.stats.game_active = True
+
+        # Usunięcie zawartości list aliens i bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Utworzenie nowej floty i wyśrodkowanie statku.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Ukrycie kursora myszki.
+        pygame.mouse.set_visible(False)
+
     def _check_play_button(self, mouse_pos):
         """Rozpoczęcie nowej gry po kliknięciu przycisku Gra przez
         użytkownika."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
-            # Wyzerowanie danych statystycznych gry.
-            self.stats.reset_stats()
-            self.stats.game_active = True
-
-            # Usunięcie zawartości list aliens i bullets.
-            self.aliens.empty()
-            self.bullets.empty()
-
-            # Utworzenie nowej floty i wyśrodkowanie statku.
-            self._create_fleet()
-            self.ship.center_ship()
-
-            # Ukrycie kursora myszki.
-            pygame.mouse.set_visible(False)
+            self._start_game()
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -125,6 +128,9 @@ class Game:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_g:
+            if not game.stats.game_active:
+                self._start_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
 
