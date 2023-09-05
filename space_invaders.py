@@ -32,7 +32,7 @@ class Game:
 
         self.screen = pygame.display.set_mode((self.settings.screen_width,
                                                self.settings.screen_height))
-        pygame.display.set_caption("Inwazja Obcych")
+        # pygame.display.set_caption("Inwazja Obcych 2.0")
 
         # Utworzenie egzemplarza przechowującego dane statystyczne dotyczące
         # gry.

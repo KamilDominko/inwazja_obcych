@@ -7,6 +7,7 @@ from star import Star
 from settings import Settings
 from button import Button
 from space_invaders import Game
+from about import About
 
 
 class Program:
@@ -18,21 +19,23 @@ class Program:
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode((1200, 800))
-        pygame.display.set_caption("Test Menu")
+        pygame.display.set_caption("Inwazja Obcych 2.0")
         self.stars = pygame.sprite.Group()
-
         self.create_buttons()
         self._create_stars()
+
+        self.screen.get_rect().centery
 
     def start(self):
         game = Game(self)
         game.run()
 
     def options(self):
-        print("Options")
+        print("OPCJE")
 
     def about(self):
-        print("ABOUT")
+        about = About(self)
+        about.run()
 
     def exit(self):
         self.running = False
@@ -50,12 +53,13 @@ class Program:
 
     def create_buttons(self):
         self.buttons = []
-        buttons = ["Start", "Options", "About", "Exit"]
+        buttons = ["START", "OPCJE", "O GRZE", "WYJŚCIE"]
         funct = [self.start, self.options, self.about, self.exit]
         x = self.screen.get_rect().width // 2
         y = self.screen.get_rect().height // 8
         for i in range(4):
-            button = Button(self, (x, y * (2 * i + 1)), buttons[i], funct[i])
+            button = Button(self.screen, (x, y * (2 * i + 1)),
+                            buttons[i], funct[i])
             self.buttons.append(button)
 
     def _check_events(self):
@@ -66,6 +70,9 @@ class Program:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_buttons(mouse_pos)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    self.running = False
 
     def _check_buttons(self, mouse_pos):
         for button in self.buttons:

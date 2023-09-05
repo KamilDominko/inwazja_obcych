@@ -4,9 +4,9 @@ import pygame
 class Button:
     """Klasa tworząca guziki."""
 
-    def __init__(self, program, pos_cent, text, metoda):
+    def __init__(self, screen, pos_cent, text, metoda):
         """Inicjalizacja atrybutów przycisku."""
-        self.screen = program.screen
+        self.screen = screen
         self.screen_rect = self.screen.get_rect()
 
         # Zdefiniowanie wymiarów i właściwości przycisku.
