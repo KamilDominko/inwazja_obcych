@@ -14,11 +14,9 @@ import pygame
 
 from alien import Alien
 from bullet import Bullet
-from settings import Settings
 from ship import Ship
 from star import Star
 from game_stats import GameStats
-from button import Button
 from scoreboard import Scoreboard
 
 
@@ -26,11 +24,11 @@ class Game:
     """Główna klasa gry przeznaczona do zarządzania zasobami i sposobem
     działania gry."""
 
-    def __init__(self):
+    def __init__(self, program):
         """Inicjalizacja gry i utworzenie jej zasobów."""
         pygame.init()
         self.running = True
-        self.settings = Settings()
+        self.settings = program.settings
 
         self.screen = pygame.display.set_mode((self.settings.screen_width,
                                                self.settings.screen_height))
@@ -49,6 +47,7 @@ class Game:
 
         self._create_fleet()
         self._create_stars()
+        self._start_game()
 
     def _create_alien(self, alien_number, row_number):
         """Utworzenie obcego i umieszczenie go w rzędzie."""

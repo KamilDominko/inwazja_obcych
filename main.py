@@ -5,7 +5,7 @@ import pygame
 
 from star import Star
 from settings import Settings
-from menu_button import MenuButton as Button
+from button import Button
 from space_invaders import Game
 
 
@@ -17,7 +17,6 @@ class Program:
         self.running = True
         self.settings = Settings()
 
-        self.bg_color = (Game().settings.bg_color)
         self.screen = pygame.display.set_mode((1200, 800))
         pygame.display.set_caption("Test Menu")
         self.stars = pygame.sprite.Group()
@@ -26,8 +25,7 @@ class Program:
         self._create_stars()
 
     def start(self):
-        game = Game()
-        game._start_game()
+        game = Game(self)
         game.run()
 
     def options(self):
@@ -100,7 +98,7 @@ class Program:
 
     def _update_screen(self):
         """Odświeżanie ekranu."""
-        self.screen.fill(self.bg_color)
+        self.screen.fill(self.settings.bg_color)
         for star in self.stars.sprites():
             star.draw_star()
         for button in self.buttons:
