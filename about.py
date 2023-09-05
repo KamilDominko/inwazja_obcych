@@ -15,17 +15,13 @@ class About:
         self.settings = program.settings
         self.screen = program.screen
         self.font = pygame.font.SysFont(None, 48)
-        self.text = "Makaron, kopytko, nóż, widelec krowa czekaj.\n Mikser " \
-                    "otworzył oczy szeroko po czym zjadł mleko.\n Melko znało się " \
-                    "z masłem wiec masło wzięło sprawy w swoje ręce i wrzuciło " \
-                    "mikser do wanny wraz z jego właśicielem."
+        self.star_manager = program.star_manager
         self.text_color = (255, 255, 255)
 
         btn_x = self.screen.get_rect().centerx
         btn_y = self.screen.get_rect().height // 8 * 7
         pos_cent = (btn_x, btn_y)
         self.back_btn = Button(self.screen, pos_cent, "POWRÓT", self.back)
-        self.stars = pygame.sprite.Group()
 
         self._player_ships_info()
         self._high_score_info()
@@ -46,7 +42,9 @@ class About:
                "Gracz porusza się lewo prawo klawiszami:\n" \
                "\"A\" lub strzałka w lewo - ruch w lewo\n" \
                "\"D\" lub strzałka w prawo - ruch w prawo\n" \
-               "\"SPACJA\" - strzelanie\n\n\n\n" \
+               "\"SPACJA\" - strzelanie\n" \
+               "\"E\" - powrót do poprzedniego ekranu\n" \
+               "\"Q\" - wyjście z programu\n\n" \
                "Program opracowany na podstawie książki:\n" \
                "\"Python instrukcje dla programisty wydanie II\"\n" \
                "napisany i rozwijany przez Kamila Dominko."
@@ -110,8 +108,8 @@ class About:
         self.about_surface = pygame.Surface(
             (self.screen.get_rect().width - rect_x * 2,
              self.screen.get_rect().height - rect_y * 2))
-        self.about_surface.set_alpha(50)
-        self.about_surface.fill((255, 255, 255))
+        self.about_surface.set_alpha(120)
+        self.about_surface.fill((0, 0, 0))
 
     def _score_wave_info(self):
         """Tworzy w prawym górnym rogu informacje o ilości
@@ -173,9 +171,12 @@ class About:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:
                     self.running = False
+                if event.key == pygame.K_q:
+                    sys.exit()
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
+        self.star_manager.update()
         self.ships.draw(self.screen)
         self._draw_msgs()
         self.back_btn.draw_button()

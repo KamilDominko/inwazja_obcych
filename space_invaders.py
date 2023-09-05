@@ -39,14 +39,13 @@ class Game:
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
 
+        self.star_manager = program.star_manager
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-        self.stars = pygame.sprite.Group()
         self.bg_color = self.settings.bg_color
 
         self._create_fleet()
-        self._create_stars()
         self._start_game()
 
     def _create_alien(self, alien_number, row_number):
@@ -196,8 +195,7 @@ class Game:
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
         # Odświeżenie ekranu w trakcie każdej iteracji pętli.
         self.screen.fill(self.bg_color)
-        for star in self.stars.sprites():
-            star.draw_star()
+        self.star_manager.update()
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -207,30 +205,6 @@ class Game:
         self.sb.show_score()
         # Wyświetlenie ostatnio zmodyfikowanego ekranu.
         pygame.display.flip()
-
-    def _create_stars(self):
-        """Tworzy początkowe gwiazdy na ekranie."""
-        for i in range(self.settings.stars_allowed):
-            self._create_star(True)
-
-    def _create_star(self, first=False):
-        """Tworzy gwiazdę nad w losowym miejscu nad ekranem, jeżeli
-        przekazano True wtedy tworzy gwiazde losowo na ekranie."""
-        rand_x = random.randrange(0, self.settings.screen_width)
-        if first:
-            rand_y = random.randrange(0, self.settings.screen_height)
-        else:
-            rand_y = random.randrange(-self.settings.screen_height, 0)
-        star = Star(self, (rand_x, rand_y))
-        self.stars.add(star)
-
-    def _update_stars(self):
-        self.stars.update()
-        # Usunięcie pocisków, które znajdują się poza ekranem.
-        for star in self.stars.copy():
-            if star.rect.top >= self.settings.screen_height:
-                self.stars.remove(star)
-                self._create_star()
 
     def _ship_hit(self):
         """Reakcja na uderzenie obcego w statek."""
@@ -299,7 +273,6 @@ class Game:
 
             if self.stats.game_active:
                 self.ship.update()
-                self._update_stars()
                 self._update_bullets()
                 self._update_aliens()
             self._update_screen()
