@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
 temp.py
+temp_odczyt_zapis_pliku.py
 high_score.txt
 Oldmain.py
 Oldbutton.py

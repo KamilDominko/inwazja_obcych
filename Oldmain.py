@@ -18,7 +18,7 @@ from settings import Settings
 from ship import Ship
 from star import Star
 from game_stats import GameStats
-from button import Button
+from Oldbutton import Button
 from scoreboard import Scoreboard
 
 
