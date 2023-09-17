@@ -13,7 +13,7 @@ class Ship(Sprite):
         self.screen_rect = game.screen.get_rect()
 
         # Wczytanie obrazu statku i pobranie jego prostokąta
-        self.image = pygame.image.load("images/ship6.bmp")
+        self.image = pygame.image.load("images/ship.bmp")
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
 
