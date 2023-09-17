@@ -13,6 +13,7 @@ class About:
         self.program = program
         self.running = True
         self.settings = program.settings
+        self.clock = program.clock
         self.screen = program.screen
         self.font = pygame.font.SysFont(None, 48)
         self.star_manager = program.star_manager
@@ -176,7 +177,7 @@ class About:
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
-        self.star_manager.update()
+        self.star_manager.update(self.clock.delta_time)
         self.ships.draw(self.screen)
         self._draw_msgs()
         self.back_btn.draw_button()
@@ -185,5 +186,7 @@ class About:
     def run(self):
         """Głowna pętla karty About."""
         while self.running:
+            self.clock.update_delta_time()
             self._check_events()
             self._update_screen()
+            self.clock.tick_clock()

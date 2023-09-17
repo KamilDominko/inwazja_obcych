@@ -29,6 +29,7 @@ class Game:
         pygame.init()
         self.running = True
         self.settings = program.settings
+        self.clock = program.clock
 
         self.screen = pygame.display.set_mode((self.settings.screen_width,
                                                self.settings.screen_height))
@@ -151,7 +152,7 @@ class Game:
         """Uaktualnienie położenia pocisków i usunięcie tych niewidocznych na
         ekranie. """
         # Uaktualnienie położenia pocisków.
-        self.bullets.update()
+        self.bullets.update(self.clock.delta_time)
 
         # Usunięcie pocisków, które znajdują się poza ekranem.
         for bullet in self.bullets.copy():
@@ -195,7 +196,7 @@ class Game:
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu."""
         # Odświeżenie ekranu w trakcie każdej iteracji pętli.
         self.screen.fill(self.bg_color)
-        self.star_manager.update()
+        self.star_manager.update(self.clock.delta_time)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -243,7 +244,7 @@ class Game:
         krawędzi, a następnie uaktualnienie położenia wszystkich obcych we
         flocie."""
         self._check_fleet_edges()
-        self.aliens.update()
+        self.aliens.update(self.clock.delta_time)
 
         # Wykrywanie kolizji między obcym i statkiem.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
@@ -269,13 +270,15 @@ class Game:
     def run(self):
         """Rozpoczęcie głównej pętli gry."""
         while self.running:
+            self.clock.update_delta_time()
             self._check_events()
 
             if self.stats.game_active:
-                self.ship.update()
+                self.ship.update(self.clock.delta_time)
                 self._update_bullets()
                 self._update_aliens()
             self._update_screen()
+            self.clock.tick_clock()
 
 
 if __name__ == '__main__':

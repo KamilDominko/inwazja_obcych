@@ -34,16 +34,16 @@ class StarManager(Sprite):
         star = Star(self, (rand_x, rand_y))
         self.stars.add(star)
 
-    def _update_stars(self):
-        self.stars.update()
+    def _update_stars(self, delta_time):
+        self.stars.update(delta_time)
         # Usunięcie pocisków, które znajdują się poza ekranem.
         for star in self.stars.copy():
             if star.rect.top >= self.settings.screen_height:
                 self.stars.remove(star)
                 self._create_star()
 
-    def update(self):
-        self.stars.update()
-        self._update_stars()
+    def update(self, delta_time):
+        self.stars.update(delta_time)
+        self._update_stars(delta_time)
         for star in self.stars.sprites():
             star.draw_star()

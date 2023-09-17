@@ -9,6 +9,7 @@ class Star(Sprite):
 
     def __init__(self, game, center):
         super().__init__()
+        self.settings = game.settings
         self.screen = game.screen
         self.color = self._generate_color()
         self.speed = 0.1
@@ -24,18 +25,18 @@ class Star(Sprite):
         i = random.randrange(100)
         if i >= 0 and i <= 35:
             radius = random.randrange(self.max_radius // 4)
-            self.speed = 0.20
+            self.speed = self.settings.fastest_star
         elif i >= 36 and i <= 60:
             radius = random.randrange(self.max_radius // 4,
                                       self.max_radius // 3)
-            self.speed = 0.15
+            self.speed = self.settings.fast_star
         elif i >= 61 and i <= 90:
             radius = random.randrange(self.max_radius // 3,
                                       self.max_radius // 2)
-            self.speed = 0.10
+            self.speed = self.settings.slow_star
         elif i >= 91 and i <= 100:
             radius = random.randrange(self.max_radius // 2, self.max_radius)
-            self.speed = 0.05
+            self.speed = self.settings.slowest_star
         return radius
 
     def _generate_color(self):
@@ -61,6 +62,6 @@ class Star(Sprite):
         #                       self.rect.center[1],
         #                       self.radius, self.color)
 
-    def update(self):
-        self.y += self.speed
+    def update(self, delta_time):
+        self.y += self.speed * delta_time
         self.rect.y = self.y

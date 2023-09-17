@@ -1,5 +1,6 @@
 import random
 import sys
+import time
 
 import pygame
 
@@ -8,6 +9,7 @@ from settings import Settings
 from button import Button
 from space_invaders import Game
 from about import About
+from clock import Clock
 
 
 class Program:
@@ -22,6 +24,9 @@ class Program:
         pygame.display.set_caption("Inwazja Obcych 2.0")
         self.star_manager = StarManager(self.screen, self.settings)
         self.create_buttons()
+
+        # Utworzenie zegara
+        self.clock = Clock(self.settings)
 
     def start(self):
         game = Game(self)
@@ -68,7 +73,7 @@ class Program:
     def _update_screen(self):
         """Odświeżanie ekranu."""
         self.screen.fill(self.settings.bg_color)
-        self.star_manager.update()
+        self.star_manager.update(self.clock.delta_time)
         for button in self.buttons:
             button.draw_button()
         pygame.display.flip()
@@ -76,8 +81,10 @@ class Program:
     def run(self):
         """Główna pętla programu."""
         while self.running:
+            self.clock.update_delta_time()
             self._check_events()
             self._update_screen()
+            self.clock.tick_clock()
 
 
 if __name__ == '__main__':
