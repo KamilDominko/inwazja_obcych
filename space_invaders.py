@@ -227,6 +227,7 @@ class Game:
             time.sleep(1)
         else:
             self.stats.game_active = False
+            self.running = False
             pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):

@@ -47,9 +47,9 @@ class Settings:
     def initialize_dynamic_settings(self):
         """Inicjalizacja ustawień, które ulegają zmianie w trakcie gry."""
         # Prędkości: statku gracza, pocisków gracza, statków obcych.
-        self.ship_speed = 2.5
+        self.ship_speed = 3.5
         self.bullet_speed = 10.0
-        self.alien_speed = 2.0
+        self.alien_speed = 1.0
 
         # Punktacja
         self.alien_points = 50
