@@ -23,10 +23,10 @@ class Bullet(Sprite):
         # zmiennoprzecinkowej.
         self.y = float(self.rect.y)
 
-    def update(self):
+    def update(self, delta_time):
         """Poruszanie pociskiem po ekranie."""
         # Uaktualnienie położenia pocisku.
-        self.y -= self.settings.bullet_speed
+        self.y -= self.settings.bullet_speed * delta_time
         # Uaktualnienie położenia prostokąta pocisku.
         self.rect.y = self.y
 

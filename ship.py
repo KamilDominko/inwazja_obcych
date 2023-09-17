@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
+
 class Ship(Sprite):
     """Klasa przeznaczona do zarządzania statkiem kosmicznym gracza"""
 
@@ -27,14 +28,14 @@ class Ship(Sprite):
         self.moving_right = False
         self.moving_left = False
 
-    def update(self):
+    def update(self, delta_time):
         """Uaktualnienie położenia statku na podstawie opcji wskazującej na
         jego ruch"""
         # Uaktualnienie wartości współrzędnej X statku, a nie jego prostokąta.
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.x += self.settings.ship_speed
+            self.x += self.settings.ship_speed * delta_time
         if self.moving_left and self.rect.left > 0:
-            self.x -= self.settings.ship_speed
+            self.x -= self.settings.ship_speed * delta_time
 
         # Uaktualnienie obiektu rect na podstawie wartości self.x.
         self.rect.x = self.x

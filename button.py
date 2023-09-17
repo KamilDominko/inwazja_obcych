@@ -1,12 +1,12 @@
-import pygame.font
+import pygame
 
 
 class Button:
-    """Klasa do tworzenia przyciskó w grze."""
+    """Klasa tworząca guziki."""
 
-    def __init__(self, game, msg):
+    def __init__(self, screen, pos_cent, text, metoda):
         """Inicjalizacja atrybutów przycisku."""
-        self.screen = game.screen
+        self.screen = screen
         self.screen_rect = self.screen.get_rect()
 
         # Zdefiniowanie wymiarów i właściwości przycisku.
@@ -15,23 +15,24 @@ class Button:
         self.text_color = (255, 255, 255)
         self.font = pygame.font.SysFont(None, 48)
 
+        self.metoda = metoda
+
         # Utworzenie prostokąta przycisku i wyśrodkowanie go.
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.center = self.screen_rect.center
+        self.rect.center = pos_cent
 
-        # Komunikat wyświetlany przez przycisk trzeba przygotować tylko
-        # jednokrotnie.
-        self._prep_msg(msg)
+        self._prep_msg(text)
 
-    def _prep_msg(self, msg):
-        """Umieszczenie komunikatu w wygenerowanym obrazie i wyśrodkowanie
-        tekstu na przycisku."""
-        self.msg_image = self.font.render(msg, True, self.text_color,
+    def _prep_msg(self, text):
+        self.msg_image = self.font.render(text, True, self.text_color,
                                           self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
 
+    def on_click(self):
+        self.metoda()
+
     def draw_button(self):
-        """Wyświetlenie pustego przycisku, a następnie komunikatu na nim."""
+        """Wyświetlenie pustego przycisku, a następnie komunikatu na nim"""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
