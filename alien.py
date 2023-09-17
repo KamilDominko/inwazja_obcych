@@ -13,7 +13,7 @@ class Alien(Sprite):
         self.stats = game.stats
 
         # Wczytanie obrazu obcego i zdefiniowanie jego atrybutu rect.
-        self.image = pygame.image.load('images/alien4.bmp')
+        self.image = pygame.image.load('images/alien.bmp')
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
 
